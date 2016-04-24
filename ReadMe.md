@@ -23,3 +23,6 @@ python 操作mysql的模块有MySQLdb，但是该模块其操作和返回都不�
 其所生成的语句:
 	<br><code>select id, name from user where id > 2 and name is not null order by id desc limit 4</code><br>
 数据集的返回形式为元组，单条数据为字典形式
+
+####文档
+[Wiki](https://github.com/Sidfate/Py-MySQL/wiki)
