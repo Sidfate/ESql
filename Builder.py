@@ -211,11 +211,11 @@ class Builder:
 
 if __name__ == '__main__': 
 	config = {
-		'host': 'localhost',
-		'user': 'root',
-		'passwd': '123456qq',
-		'db': 'huatian',
-		'prefix': 'ht_',
+		'host': '',
+		'user': '',
+		'passwd': '',
+		'db': '',
+		'prefix': '',
 	}
 	db = Builder(config)
 
