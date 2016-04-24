@@ -204,14 +204,3 @@ class Builder:
 		return self.grammar.compileSelect(self)
 
 
-if __name__ == '__main__': 
-	config = {
-		'host': 'localhost',
-		'user': 'root',
-		'passwd': '123456qq',
-		'db': 'huatian',
-		'prefix': 'ht_',
-	}
-	db = Builder(config)
-
-	print db.table('ht_user').select(['id', 'name']).where('id', '>', 2).whereNotNull('name').order('id', 'desc').limit(4).get()
