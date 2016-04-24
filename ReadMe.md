@@ -4,101 +4,100 @@
 #优雅的 mysql 1.0版
 
 
-###[1].select: 字段选择
+###select: 字段选择
 + 参数:
 	- (1)list
-		db.select(['id', 'name'])
+	<br><code>db.select(['id', 'name'])</code>
 	- (2)不定参数
-		db.select('id', 'name')
+	<br><code>db.select('id', 'name')</code>
 	
-复杂形式
++ 复杂形式:
 	db.select('(select name from user where id=1) as username')
 ps:复杂形势下将不保护字段与表名
 
 
-###[2].order: 排序
+###order: 排序
 + 参数:
 	- (1)单个字段排序
-		db.order('time', 'desc')
+	<br><code>db.order('time', 'desc')</code>
 	- (2)多字段排序(dict形式)
-		db.order({'time':'desc', 'name':'asc'})
-
-###[3].table: 表名选择
+	<br><code>db.order({'time':'desc', 'name':'asc'})</code>
+		
+###table: 表名选择
 + 参数:
 	- (1)
-		db.table('user')
+	<br><code>db.table('user')</code>
 
-
-###[4].limit: 返回数量限制
+###limit: 返回数量限制
 + 参数:
 	- (1)单个参数
-		db.limit(2)
+	<br><code>db.limit(2)</code>
 	- (2)多个参数
-		db.limit(1, 2)
-
-###[5].distinct: 去重
+	<br><code>db.limit(1, 2)</code>
+		
+###distinct: 去重
 + 参数:
 	- (1)
-		db.distinct()
-
+	<br><code>db.distinct()</code>
+		
 ##查询条件
-###[6].where: 查询条件
+###where: 查询条件
 + 参数:
 	- (1)
-		db.where('id', 1)
+	<br><code>db.where('id', 1)</code>
 	- (2)
-		db.where('id', '>', 1)
-	- (3)
-		db.where('man', 1).where('id', '>', 1, 'or') 不推荐，推荐使用下面的orWhere替代
+	<br><code>db.where('id', '>', 1)</code>
 
-###[7].orWhere: 查询条件 or 连接
+###orWhere: 查询条件 or 连接
 + 参数:
 	- (1)
-		db.where('man', 1).orWhere('id', '>', 1)
-
-###[8].whereBetween: between 条件
+	<br><code>db.where('man', 1).orWhere('id', '>', 1)</code>
+	
+###whereBetween: between 条件
 + 参数:
 	- (1)
-		db.whereBetween('id', [1, 100])
+	<br><code>db.whereBetween('id', [1, 100])</code>	
 
-###[9].whereIn: in 条件
+###whereIn: in 条件
 + 参数:
 	- (1)
-		db.whereIn('id', [1, 2, 3])
-
-###[10].whereNull: is null 条件
+	<br><code>db.whereIn('id', [1, 2, 3])</code>
+		
+###whereNull: is null 条件
 + 参数:
 	- (1)
-		db.whereNull('name')
-
+	<br><code>db.whereNull('name')</code>
+		
 ##分组与选择
-###[11].groupBy & having: 分组
+###groupBy & having: 分组
 + 参数:
 	- (1)支持多个参数，参数可以为list
+	<br><code>db.table('user')
 		db.gourpBy('a', 'b', 'c')
 		db.groupBy(['a', 'b', 'c'])
 		db.groupBy('count').having('count', '>', 100)
+	</code>
 
 
 ##结果返回形式
-###[12].get: 获取所有结果集
+###get: 获取所有结果集
 
-###[13].first: 获取结果集的第一条数据
+###first: 获取结果集的第一条数据
 
-###[14].pluck: 获取结果集第一条数据的指定字段
+###pluck: 获取结果集第一条数据的指定字段
 	db.where('id', 3).pluk('name')
 
-###[15].lists: 获取结果集中指定字段的list
+###lists: 获取结果集中指定字段的list
 	db.whereBetween('id', [1, 100]).lists('name')
 
 ##聚合方法
-###[16].count
+###count
 	db.table('user').count()
-###[18].min
+###min
 	db.table('user').min('age')
-###[19].max
+###max
 	db.table('user').max('age')
-###[20].avg
+###avg
 	db.table('user').avg('age')
-###[21].sum
+###sum
 	db.table('user').sum('age')
