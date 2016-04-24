@@ -44,13 +44,15 @@ class Builder:
 			self.orders.append({'sort': sort, 'way': way.lower()})
 		return self
 
-	def select(self, fields=['*'], *args):
-		if isinstance(fields, list):
-			self.fields = fields
+	def select(self, *args):
+		args = list(args)
+		if len(args) == 0:
+			self.fields = ["*"]
 		else:
-			fList = list(args)
-			fList.append(fields)
-			self.fields = fList
+			for item in args:  
+	   			self.fields += item if isinstance(item, list) else [item]
+
+   		self.fields = list(set(self.fields))
 		return self
 
 	def distinct(self):
@@ -197,7 +199,19 @@ class Builder:
 		res = self.__cur.execute(sql)      
 		return self.__cur.fetchall() 
 
+	# compile the sql 
 	def __toSql(self):
 		return self.grammar.compileSelect(self)
 
 
+if __name__ == '__main__': 
+	config = {
+		'host': 'localhost',
+		'user': 'root',
+		'passwd': '123456qq',
+		'db': 'huatian',
+		'prefix': 'ht_',
+	}
+	db = Builder(config)
+
+	print db.table('ht_user').select(['id', 'name']).where('id', '>', 2).whereNotNull('name').order('id', 'desc').limit(4).get()

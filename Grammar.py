@@ -40,10 +40,11 @@ class Grammar:
 			return ""
 		return "from "+self.concatenate(",", tables)
 
-	"""
-	def compileGroups(self, query):
-		pass
+	
+	def compileGroups(self, query, groups):
+		return "group by "+self.concatenate(",", groups)
 
+	"""
 	def compileHavings(self, query):
 		pass
 	"""
