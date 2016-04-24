@@ -11,8 +11,8 @@ python 操作mysql的模块有MySQLdb，但是该模块其操作和返回都不�
 	db = MySQL(config)
 
 ####config - 数据库连接配置
-- host	 主机名
-- user'  用户名
+- host   主机名
+- user   用户名
 - passwd 密码
 - db     数据库名
 - prefix 表前缀
