@@ -3,75 +3,23 @@
 
 #优雅的 mysql 1.0版
 
-##SELECTS
-###table: 表名选择
-	db.table('user')
+###简介
+python 操作mysql的模块有MySQLdb，但是该模块其操作和返回都不够简介明了，因此封装了一个更为优雅的mysql操作类
 
-###get: 获取所有结果集
-	db.table('user').get()
+###调用方式
+	from Builder import Builder as MySQL
+	db = MySQL(config)
 
-###first: 获取结果集的第一条数据
-	db.table('user').first()
+####config - 数据库连接配置
+- host	 主机名
+- user'  用户名
+- passwd 密码
+- db     数据库名
+- prefix 表前缀
 
-###pluck: 获取结果集第一条数据的指定字段
-	db.table('user').pluck('name')
+###优雅的查询操作
+	db.table('user').select(['id', 'name']).where('id', '>', 2).whereNotNull('name').order('id', 'desc').limit(4).get()
 
-###lists: 获取结果集中指定字段的list
-	db.table('user').lists('name')
-
-###select: 字段选择
-    db.table('user').select(['id', 'name']).get()
-	db.table('user').select('id', 'name').get()
-	
-**复杂形式:**
-
-	db.table('user').select('(select name from user where id=1) as username').get()
-**注意:复杂形势下将不保护字段与表名**
-
-###order: 排序
-	db.table('user').order('time', 'desc').get()
-	db.table('user').order({'time':'desc', 'name':'asc'}).get()
-
-###limit: 返回数量限制
-	db.table('user').limit(2).get()
-	db.table('user').limit(1, 2).get()
-		
-###distinct: 去重
-	db.table('user').distinct().get()
-		
-##查询条件
-###where: 查询条件
-	db.where('id', 1)
-	db.where('id', '>', 1)
-
-###orWhere: 查询条件 or 连接
-	db.where('man', 1).orWhere('id', '>', 1)
-	
-###whereBetween: between 条件
-	db.whereBetween('id', [1, 100])
-
-###whereNotBetween: not between 条件
-	db.whereNotBetween('id', [1, 100])
-
-###whereIn: in 条件
-	db.whereIn('id', [1, 2, 3])
-		
-###whereNull: is null 条件
-	db.whereNull('name')
-		
-###groupBy & having: 分组
-	db.table('user').gourpBy('a', 'b', 'c')
-	db.table('user').groupBy(['a', 'b', 'c'])
-	db.table('user').groupBy('count').having('count', '>', 100)
-
-##聚合方法
-###count
-	db.table('user').count()
-###min
-	db.table('user').min('age')
-###max
-	db.table('user').max('age')
-###avg
-	db.table('user').avg('age')
-###sum
-	db.table('user').sum('age')
+其所生成的语句:
+	<br><code>select id, name from user where id > 2 and name is not null order by id desc limit 4</code><br>
+数据集的返回形式为元组，单条数据为字典形式
