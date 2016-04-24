@@ -167,36 +167,29 @@ class Builder:
 		results = self.__executeSelect()
 		return results[0][field] if len(results) != 0 else None
 
-	"""
 	# get list of the field from results
 	def lists(self, field):
-		pass
-	"""
+		pass	
 
 	def count(self):
-		self.fields = ["count(*) as count"]
-		results = self.__executeSelect()
-		return results[0]['count'] if len(results) != 0 else 0
+		return self.aggregate(self.count.__name__, '*')
 
 	def max(self, field):
-		self.fields = ["max("+field+") as max"]
-		results = self.__executeSelect()
-		return results[0]['max'] if len(results) != 0 else 0
+		return self.aggregate(self.max.__name__, field)
 
 	def min(self, field):
-		self.fields = ["min("+field+") as min"]
-		results = self.__executeSelect()
-		return results[0]['min'] if len(results) != 0 else 0
+		return self.aggregate(self.min.__name__, field)
 
 	def avg(self, field):
-		self.fields = ["avg("+field+") as avg"]
-		results = self.__executeSelect()
-		return results[0]['avg'] if len(results) != 0 else 0
+		return self.aggregate(self.avg.__name__, field)
 
 	def sum(self, field):
-		self.fields = ["sum("+field+") as sum"]
+		return self.aggregate(self.sum.__name__, field)
+
+	def aggregate(self, func, field):
+		self.fields = [func+"("+field+") as "+func]
 		results = self.__executeSelect()
-		return results[0]['sum'] if len(results) != 0 else 0
+		return results[0][func] if len(results) != 0 else 0
 
 	# mysql cursor executes sql and returns results
 	def __executeSelect(self):
@@ -205,18 +198,6 @@ class Builder:
 		return self.__cur.fetchall() 
 
 	def __toSql(self):
-		print self.grammar.compileSelect(self)
 		return self.grammar.compileSelect(self)
 
 
-if __name__ == '__main__': 
-	config = {
-		'host': '',
-		'user': '',
-		'passwd': '',
-		'db': '',
-		'prefix': '',
-	}
-	db = Builder(config)
-
-	print db.table('ht_user').select(['id', 'name']).where('id', '>', 2).whereNotNull('name').order('id', 'desc').limit(4).get()
