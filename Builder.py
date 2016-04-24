@@ -33,6 +33,8 @@ class Builder:
 		self.__conn.close()
 
 	def table(self, table):
+		if self.config.has_key('prefix'):
+			table = self.config['prefix']+table
 		self.tables.append(table)
 		return self
 
@@ -121,13 +123,13 @@ class Builder:
 	def orWhereNotNull(self, field):
 		return self.whereNull(field, 'or', True)
 	
-	def whereRaw(self, where, boolean='and'):
+	def whereRaw(self, sql, boolean='and'):
 		whereType = 'raw'
-		self.wheres.append({'sql': where, 'boolean': boolean, 'type': whereType})
+		self.wheres.append({'sql': sql, 'boolean': boolean, 'type': whereType})
 		return self
 
-	def orWhereRaw(self, where):
-		return self.whereRaw(where, 'or')
+	def orWhereRaw(self, sql):
+		return self.whereRaw(sql, 'or')
 
 	def groupBy(self, *args):
 		args = list(args)
@@ -145,6 +147,13 @@ class Builder:
 	def orHaving(self, field, operator=None, value=None):
 		return self.having(field, operator, value, 'or')
 
+	def havingRaw(self, sql, boolean='and'):
+		whereType = 'raw'
+		self.havings.append({'sql': sql, 'boolean': boolean, 'type': whereType})
+		return self
+
+	def orHavingRaw(self, sql):
+		return self.havingRaw(sql, 'or')
 
 	"""
 	def join(self):
