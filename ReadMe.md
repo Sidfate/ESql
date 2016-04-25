@@ -39,7 +39,7 @@ python 操作 mysql 的模块有 MySQLdb，但是该模块其操作和返回都�
 		'name': 'sid',
 		'age': 10
 	}
-	db.table('user').where('id', 2).insert(data)
+	db.table('user').where('id', 2).update(data)
 
 其所生成的语句:
 	<br><code>update user set name='sid', age='10' where id = 2</code><br>
