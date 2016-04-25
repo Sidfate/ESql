@@ -18,7 +18,13 @@ python 操作mysql的模块有MySQLdb，但是该模块其操作和返回都不�
 - prefix 表前缀
 
 ###优雅的查询操作
-	db.table('user').select(['id', 'name']).where('id', '>', 2).whereNotNull('name').order('id', 'desc').limit(4).get()
+	db.table('user')\
+			.select(['id', 'name'])\
+			.where('id', '>', 2)\
+			.whereNotNull('name')\
+			.order('id', 'desc')\
+			.limit(4)\
+			.get()\
 
 其所生成的语句:
 	<br><code>select id, name from user where id > 2 and name is not null order by id desc limit 4</code><br>
