@@ -326,7 +326,7 @@ class Builder:
 	"""
 	get the field from the first column of results
 	@param  string field
-	@return string
+	@return mixed
 	"""
 	def pluck(self, field):
 		self.fields = [field]
@@ -335,13 +335,20 @@ class Builder:
 
 	"""
 	get list of the field from results
-	def lists(self, field):
-		pass	
 	"""
-
+	def lists(self, field):
+		self.fields = [field]
+		results = self.connection.select(self.__toSql())
+		if len(results) == 0:
+			return None
+		else:
+			lists = []
+			for item in results:
+				lists.append(item[field])
+			return lists 
+	
 	"""
 	Return the sum of results of a given field.
-	@param  filed
 	@return numeric
 	"""
 	def count(self):
@@ -349,7 +356,7 @@ class Builder:
 
 	"""
 	Return the max of results of a given field.
-	@param  filed
+	@param  string field
 	@return numeric
 	"""
 	def max(self, field):
@@ -357,7 +364,7 @@ class Builder:
 
 	"""
 	Return the min of results of a given field.
-	@param  filed
+	@param  string field
 	@return numeric
 	"""
 	def min(self, field):
@@ -365,7 +372,7 @@ class Builder:
 
 	"""
 	Return the avg of results of a given field.
-	@param  filed
+	@param  string field
 	@return numeric
 	"""
 	def avg(self, field):
@@ -373,7 +380,7 @@ class Builder:
 
 	"""
 	Return the sum of results of a given field.
-	@param  filed
+	@param  string field
 	@return numeric
 	"""
 	def sum(self, field):
