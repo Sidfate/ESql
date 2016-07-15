@@ -314,7 +314,9 @@ class Builder:
 	@return tuple
 	"""
 	def get(self):
-		return self.connection.select(self.__toSql())
+		results = self.connection.select(self.__toSql())
+		self.__optEnd()
+		return results
 
 	"""
 	get the first column of results
@@ -322,6 +324,7 @@ class Builder:
 	"""
  	def first(self):
 		results = self.connection.select(self.__toSql())
+		self.__optEnd()
 		return results[0] if len(results) != 0 else results
 
 	"""
@@ -332,6 +335,7 @@ class Builder:
 	def pluck(self, field):
 		self.fields = [field]
 		results = self.connection.select(self.__toSql())
+		self.__optEnd()
 		return results[0][field] if len(results) != 0 else None
 
 	"""
@@ -340,6 +344,7 @@ class Builder:
 	def lists(self, field):
 		self.fields = [field]
 		results = self.connection.select(self.__toSql())
+		self.__optEnd()
 		if len(results) == 0:
 			return None
 		else:
@@ -396,6 +401,7 @@ class Builder:
 	def aggregate(self, func, field):
 		self.fields = [func+"("+field+") as "+func]
 		results = self.connection.select(self.__toSql())
+		self.__optEnd()
 		return results[0][func] if len(results) != 0 else 0
 
 	"""
@@ -431,7 +437,6 @@ class Builder:
 	@return string
 	"""
 	def __toSql(self):
-		self.__optEnd()
 		return self.grammar.compileSelect(self)
 
 	"""
