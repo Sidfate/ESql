@@ -29,7 +29,8 @@ class Builder:
 	def table(self, table):
 		if self.connection.config.has_key('prefix'):
 			table = self.connection.config['prefix']+table
-		self.tables.append(table)
+		if not table in self.tables:
+			self.tables.append(table)
 		return self
 
 	"""
@@ -420,7 +421,6 @@ class Builder:
 	"""
 	def delete(self):
 		sql = self.grammar.compileDelete(self)
-		print sql
 		return self.connection.delete(sql)
 
 	"""
