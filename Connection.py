@@ -61,3 +61,10 @@ class Connection:
 	"""	
 	def delete(self, sql):
 		return self.__cur.execute(sql)
+
+	"""
+	Get the insert id
+	@return int
+	"""
+	def getInsertId(self):
+		return int(self.__cur.lastrowid)

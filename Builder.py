@@ -414,6 +414,13 @@ class Builder:
 		return self.connection.insert(sql)
 
 	"""
+	Get the insert id
+	@return int
+	"""
+	def getInsertId(self):
+		return self.connection.getInsertId()
+
+	"""
 	Update a record.
 	@param  dict    values
 	@return boolean
