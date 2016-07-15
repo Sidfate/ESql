@@ -404,6 +404,7 @@ class Builder:
 	"""
 	def insert(self, values):
 		sql = self.grammar.compileInsert(self, values)
+		self.__optEnd()
 		return self.connection.insert(sql)
 
 	"""
@@ -413,6 +414,7 @@ class Builder:
 	"""
 	def update(self, values):
 		sql = self.grammar.compileUpdate(self, values)
+		self.__optEnd()
 		return self.connection.update(sql)
 
 	"""
@@ -421,6 +423,7 @@ class Builder:
 	"""
 	def delete(self):
 		sql = self.grammar.compileDelete(self)
+		self.__optEnd()
 		return self.connection.delete(sql)
 
 	"""
@@ -428,6 +431,19 @@ class Builder:
 	@return string
 	"""
 	def __toSql(self):
+		self.__optEnd()
 		return self.grammar.compileSelect(self)
 
+	"""
+	clean up record
+	"""
+	def __optEnd(self):
+		self.wheres = []
+		self.orders = []
+		self.tables = []
+		self.fields = []
+		self.groups = []
+		self.havings = []
+		self.limits  = {}
+		self.distinct = False
 
